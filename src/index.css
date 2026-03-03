@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Poller+One&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --font-poller: 'Poller One', sans-serif;
+    --background-image-sky: url("./assets/sky.jpg");
+    --color-main: #eedb00;
+    --color-gray: rgba(60, 69, 67, 0.6);
+    --color-danger: rgba(204, 3, 35, 0.5);
+    --shadow-hero: 0.6rem 0.6rem 0.6rem gray;
+}
+
+@layer base {
+    body {
+        @apply font-poller bg-fixed bg-sky text-main;
+    }
+}
+
+/*label {*/
+/*    width: 100%;*/
+/*    color: rgba(204, 3, 35, 0.5);*/
+/*}*/
+
+
+/*!* Style inputs with type="text", select elements and textareas *!*/
+/*input[type=text], select, textarea {*/
+/*    width: 100%; !* Full width *!*/
+/*    padding: 12px; !* Some padding *!*/
+/*    border: 1px solid #ccc; !* Gray border *!*/
+/*    border-radius: 4px; !* Rounded borders *!*/
+/*    box-sizing: border-box; !* Make sure that padding and width stays in place *!*/
+/*    margin-top: 6px; !* Add a top margin *!*/
+/*    margin-bottom: 16px; !* Bottom margin *!*/
+/*    resize: vertical !* Allow the user to vertically resize the textarea (not horizontally) *!*/
+/*}*/
+
+
+/*!* Add a background color and some padding around the form *!*/
+/*.container {*/
+/*    border-radius: 5px;*/
+/*    background-color: #f2f2f2;*/
+/*    padding: 20px;*/
+/*}*/
+
+
+/*textarea {*/
+/*    height: 200px;*/
+/*}*/
