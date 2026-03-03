@@ -17,7 +17,6 @@ const Planets = () => {
             fetch(`${base_url}/v1/planets`)
                 .then(res => res.json())
                 .then(data => {
-                    // Предположим, API возвращает объекты с полем name
                     const names = data.map((planet: { name: string }) => planet.name);
                     localStorage.setItem('planets', JSON.stringify(names));
                     localStorage.setItem('planetsTime', String(Date.now()));
