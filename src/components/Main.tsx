@@ -4,11 +4,11 @@ import Contact from "./Contact.tsx";
 import StarWars from "./StarWars.tsx";
 import {navItems} from "../utils/constants.ts";
 import {useContext} from "react";
-import {NavContext, type NavContextProps} from "../utils/context.ts";
+import {NavContext} from "../utils/context.ts";
 
 
 const Main = () => {
-    const {page} = useContext(NavContext) as NavContextProps;
+    const {page} = useContext(NavContext);
     switch (page) {
         case navItems[0]:
             return <Home/>;
