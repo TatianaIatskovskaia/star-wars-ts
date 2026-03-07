@@ -3,11 +3,9 @@ import {about, base_url, period} from "../utils/constants.ts";
 
 const AboutMe = () => {
     const [aboutMe, setAboutMe] = useState(() => {
-        try {
-            const saved = localStorage.getItem('about_me');
-            return saved ? JSON.parse(saved) : null;
-        } catch { return null; }
-    });
+        const saved = localStorage.getItem('about_me');
+        return saved ? JSON.parse(saved) : null;
+        });
 
     useEffect(() => {
         const timestamp = Number(localStorage.getItem('time'));
