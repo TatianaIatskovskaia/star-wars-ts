@@ -3,8 +3,10 @@ import {about, base_url, period} from "../utils/constants.ts";
 
 const AboutMe = () => {
     const [aboutMe, setAboutMe] = useState(() => {
-        const saved = localStorage.getItem('about_me');
-        return saved ? JSON.parse(saved) : null;
+        try {
+            const saved = localStorage.getItem('about_me');
+            return saved ? JSON.parse(saved) : null;
+        } catch { return null; }
     });
 
     useEffect(() => {
@@ -21,7 +23,7 @@ const AboutMe = () => {
                 })
                 .catch(() => setAboutMe(`Error loading crawl`));
         }
-    }, [aboutMe])
+    }, [])
 
     if (aboutMe) {
         return (
