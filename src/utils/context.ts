@@ -1,12 +1,8 @@
 import {createContext} from "react";
-import {navItems} from "./constants.ts";
+import {defaultHero} from "./constants.ts";
+import type {NavContextValue} from "./types";
 
-export interface NavContextProps {
-    page: string;
-    changePage: (page: string) => void;
-}
-
-export const NavContext = createContext({
-    page: navItems[0],
-    changePage: (page: string) => console.log(page)
+export const NavContext = createContext<NavContextValue>({
+    name: defaultHero,
+    changeName: (name: string) => console.log(name)
 });

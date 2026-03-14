@@ -1,49 +1,63 @@
 import {useEffect, useState} from "react";
-import {about, base_url, period} from "../utils/constants.ts";
+import { about, characters, period, defaultHero } from "../utils/constants.ts";
+import { useParams } from "react-router";
+import ErrorPage from "./ErrorPage.tsx";
 
 const AboutMe = () => {
+    const { heroId = defaultHero } = useParams();
+
     const [aboutMe, setAboutMe] = useState(() => {
-        const saved = localStorage.getItem('about_me');
-        return saved ? JSON.parse(saved) : null;
-        });
+        const aboutMe = localStorage.getItem(heroId)!;
+        const parsed = JSON.parse(aboutMe);
+        if (parsed && ((Date.now() - parsed.timestamp) < period)) {
+            return parsed.data;
+        }
+    });
 
     useEffect(() => {
-        const timestamp = Number(localStorage.getItem('time'));
-        const isExpired = Date.now() - timestamp > period;
-
-        if (!aboutMe || isExpired) {
-            fetch(`${base_url}/v1/peoples/1`)
+        if (!aboutMe) {
+            fetch(`${characters[heroId].url}`)
                 .then(res => res.json())
                 .then(data => {
-                    localStorage.setItem('about_me', JSON.stringify(data));
-                    localStorage.setItem('time', String(Date.now()))
-                    setAboutMe(data)
+                    const toSave = { data, timestamp: Date.now() };
+                    localStorage.setItem(heroId, JSON.stringify(toSave));
+                    setAboutMe(data);
                 })
-                .catch(() => setAboutMe(`Error loading crawl`));
+                .catch(() => setAboutMe("Error loading data"));
         }
-    }, [])
+    }, [heroId]);
+
+    if (!(heroId in characters)) {
+        return <ErrorPage />;
+    }
 
     if (aboutMe) {
         return (
-            <div>
-                <section className={'float-left w-1/4 mt-2 mr-4 mb-4'}>
-                    <img className="w-full shadow-hero" src={`${base_url}/${aboutMe.image}`} alt={`${aboutMe.name}`}/>
+            <div className="flex mt-2">
+                <section className={'w-1/4 mr-4 mb-4'}>
+                    <img
+                        className="w-full shadow-hero rounded-xl"
+                        src={characters[heroId].img}
+                        alt={characters[heroId].name}
+                    />
                 </section>
-                <section>
-                    {about.map((item) => <p key={item}
-                                            className={'text-3xl text-justify leading-normal tracking-widest capitalize'}>{item.replace('_', ' ')}: {aboutMe[item]}</p>)}
+                <section className="flex-1">
+                    {about.map((item) => (
+                        <p key={item} className={'text-3xl text-justify leading-normal tracking-widest capitalize'}>
+                            <span className="text-gray-400">{item.replace('_', ' ')}:</span> {aboutMe[item]}
+                        </p>
+                    ))}
                 </section>
             </div>
-
-        )
-    } else {
-        return (
-            <p className="far-galaxy">
-                <span className="spinner-border text-warning"></span>
-                <span className="spinner-grow spinner-grow-sm">Loading...</span>
-            </p>
-        )
+        );
     }
+
+    return (
+        <p className="far-galaxy">
+            <span className="spinner-border text-warning"></span>
+            <span className="spinner-grow spinner-grow-sm">Loading...</span>
+        </p>
+    );
 };
 
 export default AboutMe;

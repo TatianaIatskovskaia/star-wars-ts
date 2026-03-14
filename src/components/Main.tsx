@@ -3,24 +3,22 @@ import AboutMe from "./AboutMe.tsx";
 import Contact from "./Contact.tsx";
 import StarWars from "./StarWars.tsx";
 import {navItems} from "../utils/constants.ts";
-import {useContext} from "react";
-import {NavContext} from "../utils/context.ts";
+import {Route, Routes} from "react-router";
+import ErrorPage from "./ErrorPage.tsx";
 
 
 const Main = () => {
-    const {page} = useContext(NavContext);
-    switch (page) {
-        case navItems[0]:
-            return <Home/>;
-        case navItems[1]:
-            return <AboutMe/>;
-        case navItems[3]:
-            return <Contact/>;
-        case navItems[2]:
-            return <StarWars/>;
-        default:
-            return <Home/>;
-    }
+    return (
+        <Routes>
+            {[`/`, `/${navItems[0]}`, `/${navItems[0]}/:heroId`].map(path => <Route path={path} element={<Home/>}/>)}
+            {/*<Route path={`${navItems[0]}`} element={<Home/>}/>*/}
+            {[`/${navItems[1]}`, `/${navItems[1]}/:heroId`].map(path => <Route path={path} element={<AboutMe/>}/>)}
+            {/*<Route path={`${navItems[1]}`} element={<AboutMe/>}/>*/}
+            <Route path={`/${navItems[3]}/:heroId`} element={<Contact/>}/>
+            <Route path={`/${navItems[2]}/:heroId`} element={<StarWars/>}/>
+            <Route path={`*`} element={<ErrorPage/>}/>
+        </Routes>
+    )
 };
 
 export default Main;

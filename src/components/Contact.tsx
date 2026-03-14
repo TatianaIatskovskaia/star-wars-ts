@@ -1,7 +1,11 @@
 import {type ChangeEvent, useState} from "react";
 import Planets from "./Planets.tsx";
+import {useParams} from "react-router";
+import {characters, defaultHero} from "../utils/constants.ts";
+import ErrorPage from "./ErrorPage.tsx";
 
 const Contact = () => {
+    const {heroId = defaultHero} = useParams();
 
     const [formData, setFormData] = useState({
         firstname: '',
@@ -18,7 +22,7 @@ const Contact = () => {
         }));
     }
 
-    return (
+    return  (heroId in characters) ? (
         <div className={'flex items-center justify-center'}>
             <form
                 className={'flex flex-col gap-4 border rounded-3xl mt-2 w-1/2 p-5 bg-gray mb-2 text-3xl leading-normal tracking-widest'}>
@@ -67,7 +71,7 @@ const Contact = () => {
                     type="submit" value="Submit"/>
             </form>
         </div>
-    );
+    ) : <ErrorPage/>;
 };
 
 export default Contact;
